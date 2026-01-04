@@ -123,4 +123,20 @@ public class Evento {
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
+
+    @Override
+    public String toString() {
+        return "Evento{" +
+                "id=" + id +
+                ", uuid='" + uuid + '\'' +
+                ", titulo='" + titulo + '\'' +
+                ", dataHoraInicio=" + dataHoraInicio +
+                ", dataHoraFim=" + dataHoraFim +
+                ", frase='" + frase + '\'' +
+                ", statusFinanceiro=" + statusFinanceiro +
+                ", comprovanteTransacao='" + comprovanteTransacao + '\'' +
+                ", linkMoldura='" + linkMoldura + '\'' +
+                ", cliente=" + cliente +
+                '}';
+    }
 }

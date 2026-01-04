@@ -20,7 +20,7 @@ public class Cliente {
     @Column(name = "telefone_cliente", length = 20)
     private String telefone;
 
-    @Column(name = "senha _cliente", length = 100, nullable = false)
+    @Column(name = "senha_cliente", length = 100, nullable = false)
     private String senha;
 
     public Integer getId() {
