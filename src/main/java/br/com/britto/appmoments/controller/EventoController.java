@@ -1,8 +1,10 @@
 package br.com.britto.appmoments.controller;
 
+import br.com.britto.appmoments.dto.CreateEventoDTO;
 import br.com.britto.appmoments.dto.EventoDTO;
 import br.com.britto.appmoments.model.Evento;
 import br.com.britto.appmoments.service.IEventoService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +19,7 @@ public class EventoController {
     private IEventoService service;
 
     @PostMapping("/eventos")
-    public ResponseEntity<Evento> create(@RequestBody Evento evento) {
+    public ResponseEntity<Evento> create(@RequestBody @Valid CreateEventoDTO evento) {
         Evento resultado = service.create(evento);
         if(resultado != null) return ResponseEntity.status(201).body(resultado);
         return ResponseEntity.badRequest().build();
@@ -31,7 +33,7 @@ public class EventoController {
     }
 
     @PutMapping("/eventos/{uuid}")
-    public ResponseEntity<Evento> update(@RequestBody Evento evento) {
+    public ResponseEntity<Evento> update(@RequestBody @Valid Evento evento) {
         Evento resultado = service.update(evento);
         if(resultado != null) return ResponseEntity.status(200).body(resultado);
         return ResponseEntity.badRequest().build();
