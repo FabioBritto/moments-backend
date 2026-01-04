@@ -2,12 +2,15 @@ package br.com.britto.appmoments.dto;
 
 import br.com.britto.appmoments.model.Evento;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 import java.time.LocalDateTime;
 
 public record EventoDTO(
-
+    @Size(min = 36, max = 36, message = "UUID inválido")
+    @NotBlank(message = "O UUID é obrigatório")
     String uuid,
+
     @NotBlank(message = "O título é obrigatório")
     String titulo,
 
@@ -31,6 +34,11 @@ public record EventoDTO(
         evento.setDataHoraFim(fim);
         evento.setLinkMoldura(moldura);
         return evento;
+    }
+
+    public static EventoDTO fromEvento(Evento evento) {
+        return new EventoDTO(evento.getUuid(), evento.getTitulo(), evento.getFrase(), evento.getDataHoraInicio(),
+                evento.getDataHoraFim(), evento.getLinkMoldura());
     }
 
 }
