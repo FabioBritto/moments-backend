@@ -45,6 +45,23 @@
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+<!--		<dependency>-->
+<!--			<groupId>org.springframework.boot</groupId>-->
+<!--			<artifactId>spring-boot-starter-liquibase</artifactId>-->
+<!--		</dependency>-->
+
+<!--		<dependency>-->
+<!--			<groupId>org.springframework.boot</groupId>-->
+<!--			<artifactId>spring-boot-starter-liquibase-test</artifactId>-->
+<!--			<scope>test</scope>-->
+<!--		</dependency>-->
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
 			<scope>runtime</scope>
 			<optional>true</optional>
@@ -72,6 +89,25 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+
+			<plugin>
+				<groupId>org.liquibase</groupId>
+				<artifactId>liquibase-maven-plugin</artifactId>
+				<version>4.27.0</version>
+
+				<configuration>
+					<url>${env.SPRING_DATASOURCE_URL}</url>
+					<username>${env.SPRING_DATASOURCE_USERNAME}</username>
+					<password>${env.SPRING_DATASOURCE_PASSWORD}</password>
+					<driver>com.mysql.cj.jdbc.Driver</driver>
+
+					<changeLogFile>
+						src/main/resources/db/changelog/db.changelog-baseline-2026-01-05-17.47.xml
+					</changeLogFile>
+
+				</configuration>
+			</plugin>
+
 		</plugins>
 	</build>
 
