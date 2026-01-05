@@ -34,4 +34,4 @@ build/
 /logs/
 
 # Optional: Environment-specific files
-.env
+*.env
