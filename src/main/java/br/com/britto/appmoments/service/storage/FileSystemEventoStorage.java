@@ -1,4 +1,4 @@
-package br.com.britto.appmoments.service;
+package br.com.britto.appmoments.service.storage;
 
 import br.com.britto.appmoments.exception.FileStorageException;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,8 +18,9 @@ public class FileSystemEventoStorage implements IFileStorageService {
 
     @Override
     public void createAlbum(String uuid) {
+        System.out.println("UUID " + uuid);
         String newFolder = albumFolder + File.separator + uuid;
-        if(new File(newFolder).mkdirs()) {
+        if(!(new File(newFolder).mkdirs())) {
             throw new FileStorageException("Não foi possível criar o diretório de armazenamento do evento");
         }
     }
