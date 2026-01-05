@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+            http://www.liquibase.org/xml/ns/dbchangelog
+            http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.27.xsd">
+
+    <!-- Baseline (estado inicial do banco) -->
+    <include file="db/changelog/baseline/db.changelog-baseline-2026-01-05-17.47.xml"/>
+
+    <!-- Mudanças versionadas -->
+    <include file="db/changelog/changes/V1_1_alter_status_financeiro_to_enum.xml"/>
+
+</databaseChangeLog>

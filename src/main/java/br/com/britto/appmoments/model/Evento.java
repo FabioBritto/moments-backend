@@ -1,5 +1,6 @@
 package br.com.britto.appmoments.model;
 
+import br.com.britto.appmoments.model.enums.StatusFinanceiro;
 import jakarta.persistence.*;
 import org.hibernate.annotations.UuidGenerator;
 import org.springframework.web.servlet.tags.form.TextareaTag;
@@ -30,8 +31,9 @@ public class Evento {
     @Column(name = "frase_evento", length = 100)
     private String frase;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "status_financeiro")
-    private Integer statusFinanceiro;
+    private StatusFinanceiro statusFinanceiro;
 
     @Column(name = "comprovante_transacao", columnDefinition = "TEXT")
     private String comprovanteTransacao;
@@ -92,11 +94,11 @@ public class Evento {
         this.frase = frase;
     }
 
-    public Integer getStatusFinanceiro() {
+    public StatusFinanceiro getStatusFinanceiro() {
         return statusFinanceiro;
     }
 
-    public void setStatusFinanceiro(Integer statusFinanceiro) {
+    public void setStatusFinanceiro(StatusFinanceiro statusFinanceiro) {
         this.statusFinanceiro = statusFinanceiro;
     }
 
