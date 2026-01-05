@@ -1,19 +1,16 @@
-package br.com.britto.appmoments.service;
+package br.com.britto.appmoments.service.evento;
 
-import br.com.britto.appmoments.dto.CreateEventoDTO;
-import br.com.britto.appmoments.dto.EventoDTO;
+import br.com.britto.appmoments.dto.evento.CreateEventoDTO;
+import br.com.britto.appmoments.dto.evento.EventoDTO;
 import br.com.britto.appmoments.exception.*;
 import br.com.britto.appmoments.model.Cliente;
 import br.com.britto.appmoments.model.Evento;
 import br.com.britto.appmoments.repository.ClienteRepository;
 import br.com.britto.appmoments.repository.EventoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import br.com.britto.appmoments.service.storage.IFileStorageService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.File;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -38,6 +35,9 @@ public class EventoServiceImpl implements IEventoService {
         Evento evento = dto.toEvento();
         evento.setUuid(UUID.randomUUID().toString());
         evento.setDataHoraFim(evento.getDataHoraInicio().plusHours(4)); //Evento sempre com 4hrs de duração
+        Cliente cliente = new Cliente();
+        cliente.setId(dto.idCliente());
+        evento.setCliente(cliente);
         storage.createAlbum(evento.getUuid());
         return repository.save(evento);
     }

@@ -1,7 +1,7 @@
-package br.com.britto.appmoments.service;
+package br.com.britto.appmoments.service.evento;
 
-import br.com.britto.appmoments.dto.CreateEventoDTO;
-import br.com.britto.appmoments.dto.EventoDTO;
+import br.com.britto.appmoments.dto.evento.CreateEventoDTO;
+import br.com.britto.appmoments.dto.evento.EventoDTO;
 import br.com.britto.appmoments.model.Evento;
 
 import java.util.List;

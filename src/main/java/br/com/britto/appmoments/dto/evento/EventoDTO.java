@@ -1,6 +1,7 @@
-package br.com.britto.appmoments.dto;
+package br.com.britto.appmoments.dto.evento;
 
 import br.com.britto.appmoments.model.Evento;
+import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
@@ -17,7 +18,6 @@ public record EventoDTO(
     @NotBlank(message = "A frase é obrigatória")
     String frase,
 
-    @NotBlank(message = "A data e hora de início do evento são obrigatórios")
     LocalDateTime inicio,
     LocalDateTime fim,
 
