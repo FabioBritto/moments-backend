@@ -11,5 +11,6 @@
 
     <!-- Mudanças versionadas -->
     <include file="db/changelog/changes/V1_1_alter_status_financeiro_to_enum.xml"/>
+    <include file="db/changelog/changes/V1_2_add_pendente_to_status_financeiro.xml"/>
 
 </databaseChangeLog>

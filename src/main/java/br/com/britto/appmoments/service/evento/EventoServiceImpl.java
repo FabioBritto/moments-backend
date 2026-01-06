@@ -37,6 +37,7 @@ public class EventoServiceImpl implements IEventoService {
         Evento evento = dto.toEvento();
         evento.setUuid(UUID.randomUUID().toString());
         evento.setDataHoraFim(evento.getDataHoraInicio().plusHours(4)); //Evento sempre com 4hrs de duração
+        evento.setStatusFinanceiro(StatusFinanceiro.PENDENTE);
         Cliente cliente = new Cliente();
         cliente.setId(dto.idCliente());
         evento.setCliente(cliente);
@@ -46,6 +47,7 @@ public class EventoServiceImpl implements IEventoService {
 
     @Override
     public EventoDTO findByUuid(String uuid) {
+        // Preciso revisar esta lógica. Provavelmente será possível recuperar um evento com pagamento cancelado ou negado, por exemplo
         Evento evento = repository.findByUuid(uuid).orElseThrow(() -> new UuidNotFoundException("UUID não encontrado"));
         if (evento.getStatusFinanceiro() == StatusFinanceiro.EXPIRADO || evento.getDataHoraFim().isBefore(LocalDateTime.now())) {
             throw new StatusFinanceiroException("O prazo para pagamento do evento expirou");
