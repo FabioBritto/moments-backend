@@ -33,4 +33,9 @@ public class ExceptionHandlingAdvice {
     public ResponseEntity<ExceptionDTO> handleStatusFinanceiroException(Exception e) {
         return ResponseEntity.status(400).body(new ExceptionDTO(e.getMessage()));
     }
+
+    @ExceptionHandler(FotoConversionException.class)
+    public ResponseEntity<ExceptionDTO> handleFotoConversion(Exception e) {
+        return ResponseEntity.status(400).body(new ExceptionDTO(e.getMessage()));
+    }
 }
