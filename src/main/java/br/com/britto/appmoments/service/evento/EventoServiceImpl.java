@@ -5,12 +5,14 @@ import br.com.britto.appmoments.dto.evento.EventoDTO;
 import br.com.britto.appmoments.exception.*;
 import br.com.britto.appmoments.model.Cliente;
 import br.com.britto.appmoments.model.Evento;
+import br.com.britto.appmoments.model.enums.StatusFinanceiro;
 import br.com.britto.appmoments.repository.ClienteRepository;
 import br.com.britto.appmoments.repository.EventoRepository;
 import br.com.britto.appmoments.service.storage.IFileStorageService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -43,9 +45,17 @@ public class EventoServiceImpl implements IEventoService {
     }
 
     @Override
-    public EventoDTO findByUuid(String uuid){
+    public EventoDTO findByUuid(String uuid) {
         Evento evento = repository.findByUuid(uuid).orElseThrow(() -> new UuidNotFoundException("UUID não encontrado"));
-        return EventoDTO.fromEvento(evento);
+        if (evento.getStatusFinanceiro() == StatusFinanceiro.EXPIRADO || evento.getDataHoraFim().isBefore(LocalDateTime.now())) {
+            throw new StatusFinanceiroException("O prazo para pagamento do evento expirou");
+        } else if (evento.getStatusFinanceiro() == StatusFinanceiro.NEGADO) {
+            throw new StatusFinanceiroException("O pagamento do evento foi negado");
+        } else if (evento.getStatusFinanceiro() == StatusFinanceiro.CANCELADO) {
+            throw new StatusFinanceiroException("O pagamento foi cancelado");
+        } else {
+            return EventoDTO.fromEvento(evento);
+        }
     }
 
     @Override

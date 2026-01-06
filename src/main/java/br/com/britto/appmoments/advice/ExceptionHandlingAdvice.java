@@ -28,4 +28,9 @@ public class ExceptionHandlingAdvice {
     public ResponseEntity<ExceptionDTO> handleFileStorageException(Exception e) {
         return ResponseEntity.status(400).body(new ExceptionDTO(e.getMessage()));
     }
+
+    @ExceptionHandler(StatusFinanceiroException.class)
+    public ResponseEntity<ExceptionDTO> handleStatusFinanceiroException(Exception e) {
+        return ResponseEntity.status(400).body(new ExceptionDTO(e.getMessage()));
+    }
 }
