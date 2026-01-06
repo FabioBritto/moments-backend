@@ -21,9 +21,9 @@ public class EventoServiceImpl implements IEventoService {
 
     private final IFileStorageService storage;
 
-    private EventoRepository repository;
+    private final EventoRepository repository;
 
-    private ClienteRepository clienteRepository;
+    private final ClienteRepository clienteRepository;
 
     public EventoServiceImpl(IFileStorageService storage, EventoRepository repository, ClienteRepository clienteRepository) {
         this.storage = storage;
