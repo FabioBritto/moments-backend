@@ -16,11 +16,14 @@ import java.time.LocalDateTime;
 @Service
 public class FotoServiceImpl implements IFotoService {
 
-    @Autowired
-    private EventoRepository repository;
+    private final EventoRepository repository;
 
-    @Autowired
-    private IFileStorageService service;
+    private final IFileStorageService service;
+
+    public FotoServiceImpl(EventoRepository repository, IFileStorageService service) {
+        this.repository = repository;
+        this.service = service;
+    }
 
     @Override
     public FotoResponseDTO sendFoto(FotoDTO fotoDTO) {

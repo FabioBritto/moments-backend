@@ -29,7 +29,7 @@ public class EventoController {
         return ResponseEntity.status(HttpStatus.FOUND).body(service.findByUuid(uuid));
     }
 
-    @PutMapping("/eventos/{uuid}")
+    @PutMapping("/eventos")
     public ResponseEntity<Evento> update(@RequestBody Evento evento) {
         return ResponseEntity.status(HttpStatus.OK).body(service.update(evento));
     }
