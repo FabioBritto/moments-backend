@@ -1,8 +1,10 @@
 package br.com.britto.appmoments.controller;
 
 import br.com.britto.appmoments.dto.cliente.ClienteDTO;
+import br.com.britto.appmoments.dto.cliente.UpdateClienteDTO;
 import br.com.britto.appmoments.model.Cliente;
 import br.com.britto.appmoments.service.cliente.IClienteService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,8 +24,8 @@ public class ClienteController {
     }
 
     @PutMapping("/clientes")
-    public ResponseEntity<ClienteDTO> update(@RequestBody Cliente cliente) {
-        return ResponseEntity.status(200).body(service.update(cliente));
+    public ResponseEntity<ClienteDTO> update(@RequestBody @Valid UpdateClienteDTO clienteDTO) {
+        return ResponseEntity.status(200).body(service.update(clienteDTO));
     }
 
 }
