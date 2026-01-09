@@ -1,4 +1,4 @@
-package br.com.britto.appmoments.service.auth;
+package br.com.britto.appmoments.security.service;
 
 import br.com.britto.appmoments.dto.login.LoginDTO;
 import br.com.britto.appmoments.dto.login.LoginResponseDTO;
