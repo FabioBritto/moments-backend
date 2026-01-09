@@ -1,6 +1,7 @@
 package br.com.britto.appmoments.security.service;
 
 import br.com.britto.appmoments.dto.login.LoginResponseDTO;
+import br.com.britto.appmoments.exception.TokenException;
 import br.com.britto.appmoments.model.Cliente;
 import br.com.britto.appmoments.security.authuser.AuthUser;
 import com.auth0.jwt.JWT;
@@ -23,9 +24,7 @@ public class TokenUtilService {
     private String secret;
 
     private static final long TOKEN_EXPIRATION = 24 * 60 * 60 * 1000;
-
-    private static final String ISSUER = "Britto";
-
+    private static final String ISSUER = "BRITTO";
 
     public LoginResponseDTO generateLoginToken(AuthUser authUser) {
         try {
@@ -33,16 +32,15 @@ public class TokenUtilService {
             String token = JWT.create()
                     .withIssuer(ISSUER)
                     .withSubject(authUser.getUsername())
-                    .withExpiresAt(LocalDateTime.now().plusDays(TOKEN_EXPIRATION).toInstant(ZoneOffset.of("-03:00")))
+                    .withExpiresAt(LocalDateTime.now().plusSeconds(TOKEN_EXPIRATION).toInstant(ZoneOffset.of("-03:00")))
                     .sign(algorithm);
             return new LoginResponseDTO(token);
         } catch (JWTCreationException e) {
-            throw new RuntimeException("Erro ao gerar Token: " + e.getMessage());
+            throw new TokenException("Erro ao gerar Token");
         }
     }
 
     public String validateLoginToken(String token) {
-        System.out.println("TOKEN:" + token);
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
             return JWT.require(algorithm)
@@ -51,7 +49,7 @@ public class TokenUtilService {
                     .verify(token)
                     .getSubject();
         } catch (JWTVerificationException e) {
-            throw new RuntimeException("Erro ao validar Token: " + e.getMessage());
+            throw new TokenException("Erro ao validar Token");
         }
     }
 

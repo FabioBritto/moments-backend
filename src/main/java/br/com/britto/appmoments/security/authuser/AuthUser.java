@@ -11,10 +11,9 @@ import java.util.List;
 
 public class AuthUser implements UserDetails {
 
-    private Cliente userCliente;
+    private final Cliente userCliente;
 
     public AuthUser(Cliente userCliente) {
-        System.out.println("User cliente: " + userCliente);
         this.userCliente = userCliente;
     }
 
@@ -30,7 +29,7 @@ public class AuthUser implements UserDetails {
 
     @Override
     public String getUsername() {
-        return userCliente.getNome();
+        return userCliente.getEmail();
     }
 
     public Cliente getUserCliente() {

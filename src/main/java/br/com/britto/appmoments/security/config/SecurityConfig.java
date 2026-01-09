@@ -24,8 +24,11 @@ import java.util.List;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    @Autowired
-    private AppMomentsFilter filter;
+    private final AppMomentsFilter filter;
+
+    public SecurityConfig(AppMomentsFilter filter) {
+        this.filter = filter;
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {

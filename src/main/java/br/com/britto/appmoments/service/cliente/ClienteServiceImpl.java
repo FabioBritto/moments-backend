@@ -1,6 +1,7 @@
 package br.com.britto.appmoments.service.cliente;
 
 import br.com.britto.appmoments.dto.cliente.ClienteDTO;
+import br.com.britto.appmoments.dto.cliente.CreateClienteDTO;
 import br.com.britto.appmoments.dto.cliente.UpdateClienteDTO;
 import br.com.britto.appmoments.exception.AlreadyExistingUniqueData;
 import br.com.britto.appmoments.exception.ClienteNotFoundException;
@@ -19,10 +20,13 @@ public class ClienteServiceImpl implements IClienteService {
     }
 
     @Override
-    public ClienteDTO create(Cliente cliente) {
-        if(repository.findByEmail(cliente.getEmail()).isPresent()) throw new AlreadyExistingUniqueData("Este email já está cadastrado no sistema");
-        if(repository.findByTelefone(cliente.getTelefone()).isPresent()) throw new AlreadyExistingUniqueData("Este telefone já está cadastrado no sistema");
-        cliente.setSenha(encoderPassword(cliente.getSenha()));
+    public ClienteDTO create(CreateClienteDTO clienteDTO) {
+        if(repository.findByEmail(clienteDTO.email()).isPresent()) throw new AlreadyExistingUniqueData("Este email já está cadastrado no sistema");
+        if(repository.findByTelefone(clienteDTO.telefone()).isPresent()) throw new AlreadyExistingUniqueData("Este telefone já está cadastrado no sistema");
+        Cliente cliente = new Cliente();
+        cliente.setEmail(clienteDTO.email());
+        cliente.setSenha(encoderPassword(clienteDTO.senha()));
+        cliente.setTelefone(clienteDTO.telefone());
         Cliente created = repository.save(cliente);
         return ClienteDTO.fromEntity(created);
     }
