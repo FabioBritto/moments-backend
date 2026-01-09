@@ -1,11 +1,13 @@
 package br.com.britto.appmoments.service.cliente;
 
 import br.com.britto.appmoments.dto.cliente.ClienteDTO;
+import br.com.britto.appmoments.dto.cliente.CreateClienteDTO;
 import br.com.britto.appmoments.dto.cliente.UpdateClienteDTO;
 import br.com.britto.appmoments.exception.AlreadyExistingUniqueData;
 import br.com.britto.appmoments.exception.ClienteNotFoundException;
 import br.com.britto.appmoments.model.Cliente;
 import br.com.britto.appmoments.repository.ClienteRepository;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,9 +20,13 @@ public class ClienteServiceImpl implements IClienteService {
     }
 
     @Override
-    public ClienteDTO create(Cliente cliente) {
-        if(repository.findByEmail(cliente.getEmail()).isPresent()) throw new AlreadyExistingUniqueData("Este email já está cadastrado no sistema");
-        if(repository.findByTelefone(cliente.getTelefone()).isPresent()) throw new AlreadyExistingUniqueData("Este telefone já está cadastrado no sistema");
+    public ClienteDTO create(CreateClienteDTO clienteDTO) {
+        if(repository.findByEmail(clienteDTO.email()).isPresent()) throw new AlreadyExistingUniqueData("Este email já está cadastrado no sistema");
+        if(repository.findByTelefone(clienteDTO.telefone()).isPresent()) throw new AlreadyExistingUniqueData("Este telefone já está cadastrado no sistema");
+        Cliente cliente = new Cliente();
+        cliente.setEmail(clienteDTO.email());
+        cliente.setSenha(encoderPassword(clienteDTO.senha()));
+        cliente.setTelefone(clienteDTO.telefone());
         Cliente created = repository.save(cliente);
         return ClienteDTO.fromEntity(created);
     }
@@ -35,6 +41,11 @@ public class ClienteServiceImpl implements IClienteService {
         cliente.setTelefone(clienteDTO.telefone());
         Cliente updated = repository.save(cliente);
         return ClienteDTO.fromEntity(updated);
+    }
+
+    private String encoderPassword(String currentPassword) {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        return encoder.encode(currentPassword);
     }
 
 }
