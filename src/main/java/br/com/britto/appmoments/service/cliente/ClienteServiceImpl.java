@@ -25,6 +25,7 @@ public class ClienteServiceImpl implements IClienteService {
         if(repository.findByTelefone(clienteDTO.telefone()).isPresent()) throw new AlreadyExistingUniqueData("Este telefone já está cadastrado no sistema");
         Cliente cliente = new Cliente();
         cliente.setEmail(clienteDTO.email());
+        cliente.setNome(clienteDTO.nome());
         cliente.setSenha(encoderPassword(clienteDTO.senha()));
         cliente.setTelefone(clienteDTO.telefone());
         Cliente created = repository.save(cliente);
