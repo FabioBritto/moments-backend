@@ -10,6 +10,8 @@ import br.com.britto.appmoments.repository.ClienteRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class ClienteServiceImpl implements IClienteService {
 
@@ -25,6 +27,7 @@ public class ClienteServiceImpl implements IClienteService {
         if(repository.findByTelefone(clienteDTO.telefone()).isPresent()) throw new AlreadyExistingUniqueData("Este telefone já está cadastrado no sistema");
         Cliente cliente = new Cliente();
         cliente.setEmail(clienteDTO.email());
+        cliente.setNome(clienteDTO.nome());
         cliente.setSenha(encoderPassword(clienteDTO.senha()));
         cliente.setTelefone(clienteDTO.telefone());
         Cliente created = repository.save(cliente);
@@ -46,6 +49,12 @@ public class ClienteServiceImpl implements IClienteService {
     private String encoderPassword(String currentPassword) {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         return encoder.encode(currentPassword);
+    }
+
+    @Override
+    public Cliente findById(Integer id) {
+        return repository.findById(id).orElseThrow(() -> new ClienteNotFoundException("O cliente não existe na base de dados"));
+
     }
 
 }

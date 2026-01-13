@@ -1,6 +1,7 @@
 package br.com.britto.appmoments.dto.login;
 
 public record LoginResponseDTO(
-        String token
+        String accessToken,
+        String refreshToken
 ) {
 }

@@ -1,6 +1,6 @@
 package br.com.britto.appmoments.security.config;
 
-import br.com.britto.appmoments.security.service.TokenUtilService;
+import br.com.britto.appmoments.security.service.AccessTokenService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,11 +18,11 @@ import java.io.IOException;
 @Component
 public class AppMomentsFilter extends OncePerRequestFilter {
 
-    private final TokenUtilService tokenUtilService;
+    private final AccessTokenService accessTokenService;
     private final UserDetailsService userDetailsService;
 
-    public AppMomentsFilter(TokenUtilService tokenUtilService, UserDetailsService userDetailsService) {
-        this.tokenUtilService = tokenUtilService;
+    public AppMomentsFilter(AccessTokenService accessTokenService, UserDetailsService userDetailsService) {
+        this.accessTokenService = accessTokenService;
         this.userDetailsService = userDetailsService;
     }
 
@@ -31,7 +31,7 @@ public class AppMomentsFilter extends OncePerRequestFilter {
 
         String token = this.getToken(request);
         if(token != null) {
-            String login = tokenUtilService.validateLoginToken(token);
+            String login = accessTokenService.validateLoginToken(token);
             if(login != null && !login.isEmpty()) {
                 UserDetails userDetails = userDetailsService.loadUserByUsername(login);
                 Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());

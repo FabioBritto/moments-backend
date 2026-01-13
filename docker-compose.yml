@@ -1,0 +1,50 @@
+services:
+
+#Na minha API, defino que minha API depende do MySQL e do Redis, mas com as seguintes condições:
+
+  api:
+    build: .
+    container_name: api-app
+    ports:
+      - "8080:8080"
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    env_file:
+      - config.env
+
+#Aqui, tem o healthcheck, que uso pra garantir que o MySQL estará rodando quando
+#eu minha API precisar
+  mysql:
+    image: mysql:8.0
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    container_name: mysql-app
+    restart: always
+    env_file:
+      - config.env
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  redis:
+    image: redis:7
+    container_name: redis-app
+    ports:
+      - "6379:6379"
+    command:
+      - redis-server
+      - --appendonly
+      - "yes"
+    volumes:
+      - redis_data:/data
+
+volumes:
+  mysql_data:
+  redis_data:
