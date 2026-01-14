@@ -1,6 +1,5 @@
 package br.com.britto.appmoments.security.service;
 
-import br.com.britto.appmoments.dto.login.LoginResponseDTO;
 import br.com.britto.appmoments.exception.TokenException;
 import br.com.britto.appmoments.security.authuser.AuthUser;
 import com.auth0.jwt.JWT;
@@ -19,10 +18,10 @@ public class AccessTokenService {
     @Value("${JWT_SECRET:secret-key}")
     private String secret;
 
-    private static final long TOKEN_EXPIRATION = 24 * 60 * 60 * 1000;
+    private static final long TOKEN_EXPIRATION = 2 * 1000;
     private static final String ISSUER = "BRITTO";
 
-    public String generateLoginToken(AuthUser authUser) {
+    public String generateAccessToken(AuthUser authUser) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
             return JWT.create()
@@ -35,7 +34,7 @@ public class AccessTokenService {
         }
     }
 
-    public String validateLoginToken(String token) {
+    public String validateAccessToken(String token) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
             return JWT.require(algorithm)
