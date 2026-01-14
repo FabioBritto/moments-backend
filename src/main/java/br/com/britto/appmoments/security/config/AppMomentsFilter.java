@@ -31,7 +31,7 @@ public class AppMomentsFilter extends OncePerRequestFilter {
 
         String token = this.getToken(request);
         if(token != null) {
-            String login = accessTokenService.validateLoginToken(token);
+            String login = accessTokenService.validateAccessToken(token);
             if(login != null && !login.isEmpty()) {
                 UserDetails userDetails = userDetailsService.loadUserByUsername(login);
                 Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());

@@ -4,7 +4,6 @@ import br.com.britto.appmoments.dto.login.LoginDTO;
 import br.com.britto.appmoments.dto.login.LoginResponseDTO;
 import br.com.britto.appmoments.dto.login.NewAccessTokenDTO;
 import br.com.britto.appmoments.exception.TokenException;
-import br.com.britto.appmoments.model.Cliente;
 import br.com.britto.appmoments.security.authuser.AuthUser;
 import br.com.britto.appmoments.security.redis.RefreshTokenService;
 import br.com.britto.appmoments.security.service.AccessTokenService;
@@ -38,7 +37,7 @@ public class AuthController {
     public ResponseEntity<LoginResponseDTO> login(@RequestBody @Valid LoginDTO loginDTO) {
         UsernamePasswordAuthenticationToken userPass = new UsernamePasswordAuthenticationToken(loginDTO.email(), loginDTO.senha());
         Authentication authentication = authenticationManager.authenticate(userPass);
-        String accessToken = accessTokenService.generateLoginToken((AuthUser) authentication.getPrincipal());
+        String accessToken = accessTokenService.generateAccessToken((AuthUser) authentication.getPrincipal());
         String refreshToken = refreshTokenService.create(((AuthUser) authentication.getPrincipal()).getUserCliente().getId());
         return ResponseEntity.status(200).body(new LoginResponseDTO(accessToken, refreshToken));
     }
@@ -47,7 +46,7 @@ public class AuthController {
     public ResponseEntity<NewAccessTokenDTO> refresh(@RequestBody String refreshToken) {
         Integer userId = refreshTokenService.validate(refreshToken).orElseThrow(() -> new TokenException("Token inválido"));
         AuthUser authUser = new AuthUser(clienteService.findById(userId));
-        NewAccessTokenDTO dto = new NewAccessTokenDTO(accessTokenService.generateLoginToken(authUser));
+        NewAccessTokenDTO dto = new NewAccessTokenDTO(accessTokenService.generateAccessToken(authUser));
         return ResponseEntity.status(200).body(dto);
     }
 
