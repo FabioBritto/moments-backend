@@ -18,7 +18,7 @@ public class AccessTokenService {
     @Value("${JWT_SECRET:secret-key}")
     private String secret;
 
-    private static final long TOKEN_EXPIRATION = 2 * 1000;
+    private static final long TOKEN_EXPIRATION_SECONDS = 120;
     private static final String ISSUER = "BRITTO";
 
     public String generateAccessToken(AuthUser authUser) {
@@ -27,7 +27,7 @@ public class AccessTokenService {
             return JWT.create()
                     .withIssuer(ISSUER)
                     .withSubject(authUser.getUsername())
-                    .withExpiresAt(LocalDateTime.now().plusSeconds(TOKEN_EXPIRATION).toInstant(ZoneOffset.of("-03:00")))
+                    .withExpiresAt(LocalDateTime.now(ZoneOffset.of("-03:00")).plusSeconds(TOKEN_EXPIRATION_SECONDS).toInstant(ZoneOffset.of("-03:00")))
                     .sign(algorithm);
         } catch (JWTCreationException e) {
             throw new TokenException("Erro ao gerar Token");

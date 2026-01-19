@@ -43,9 +43,10 @@ public class SecurityConfig {
                     session.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
                 })
                 .csrf(AbstractHttpConfigurer::disable).authorizeHttpRequests((auth) -> {
-           auth.requestMatchers(HttpMethod.POST, "/clientes").permitAll().
+              auth.requestMatchers(HttpMethod.POST, "/clientes").permitAll().
                    requestMatchers(HttpMethod.POST, "/login").permitAll().
                    requestMatchers(HttpMethod.POST, "/refresh").permitAll().
+                   requestMatchers(HttpMethod.POST, "/logout").permitAll().
                    anyRequest().authenticated();
         }).addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class).build();
     }

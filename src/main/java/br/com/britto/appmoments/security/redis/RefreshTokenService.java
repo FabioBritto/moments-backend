@@ -1,5 +1,6 @@
 package br.com.britto.appmoments.security.redis;
 
+import br.com.britto.appmoments.dto.login.RefreshTokenDTO;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
@@ -25,15 +26,20 @@ public class RefreshTokenService {
         return token;
     }
 
-    public Optional<Integer> validate(String token) {
-        String value = redisTemplate.opsForValue().get(PREFIX + token);
+    public Optional<Integer> validate(RefreshTokenDTO token) {
+        System.out.println("TOKEN QUE CHEGOU: " + token);
+        System.out.println("TOKEN COMPLETO COM PREFIXO: " + PREFIX + token.refreshToken());
+        String value = redisTemplate.opsForValue().get(PREFIX + token.refreshToken());
 
+        System.out.println("VALUE :" + value);
         if(value == null) return Optional.empty();
 
         return Optional.of(Integer.parseInt(value));
     }
 
-    public void revoke(String token) {
-        redisTemplate.delete(PREFIX + token);
+    public void revoke(RefreshTokenDTO token) {
+        System.out.println("TOKEN QUE CHEGOU: " + token.refreshToken());
+        System.out.println("TOKEN COMPLETO COM PREFIXO: " + PREFIX + token.refreshToken());
+        redisTemplate.delete(PREFIX + token.refreshToken());
     }
 }
