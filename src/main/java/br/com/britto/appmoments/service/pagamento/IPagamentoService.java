@@ -6,5 +6,5 @@ import br.com.britto.appmoments.model.Evento;
 
 public interface IPagamentoService {
 
-    public PaymentLinkDTO createPaymenteLink(Evento evento);
+    public PaymentLinkDTO createPaymenteLink(String uuidEvento);
 }
