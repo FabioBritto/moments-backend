@@ -8,6 +8,7 @@ import br.com.britto.appmoments.model.Evento;
 import br.com.britto.appmoments.model.enums.StatusFinanceiro;
 import br.com.britto.appmoments.repository.ClienteRepository;
 import br.com.britto.appmoments.repository.EventoRepository;
+import br.com.britto.appmoments.service.pagamento.IPagamentoService;
 import br.com.britto.appmoments.service.storage.IFileStorageService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,7 +37,7 @@ public class EventoServiceImpl implements IEventoService {
     public Evento create(CreateEventoDTO dto) {
         Evento evento = dto.toEvento();
         evento.setUuid(UUID.randomUUID().toString());
-        evento.setDataHoraFim(evento.getDataHoraInicio().plusHours(4)); //Evento sempre com 4hrs de duração
+        evento.setDataHoraFim(evento.getDataHoraInicio().plusDays(2)); //Evento sempre com 2 dias de duração
         evento.setStatusFinanceiro(StatusFinanceiro.PENDENTE);
         Cliente cliente = new Cliente();
         cliente.setId(dto.idCliente());

@@ -2,7 +2,6 @@ package br.com.britto.appmoments.controller;
 
 import br.com.britto.appmoments.dto.evento.CreateEventoDTO;
 import br.com.britto.appmoments.dto.evento.EventoDTO;
-import br.com.britto.appmoments.dto.pagamento.PagamentoRequestDTO;
 import br.com.britto.appmoments.model.Evento;
 import br.com.britto.appmoments.service.evento.IEventoService;
 import br.com.britto.appmoments.service.pagamento.IPagamentoService;
@@ -17,14 +16,16 @@ import java.util.List;
 @CrossOrigin("*")
 public class EventoController {
 
-    private IEventoService service;
-    private IPagamentoService pagamentoService;
+    private final IEventoService service;
 
-    public EventoController(IEventoService service, IPagamentoService pagamentoService) {
+    public EventoController(IEventoService service) {
         this.service = service;
-        this.pagamentoService = pagamentoService;
     }
 
+    /*
+    Talvez eu precise desacoplar a criação do evento com a geração do link de pagamento. Eu não posso conseguir
+    criar o evento, e ao dar erro na geração do link, retornar uma exceção. São dois processos distintos
+     */
     @PostMapping("/eventos")
     public ResponseEntity<Evento> create(@RequestBody @Valid CreateEventoDTO evento) {
         return ResponseEntity.status(201).body(service.create(evento));
@@ -45,8 +46,8 @@ public class EventoController {
         return ResponseEntity.status(200).body(service.findByCliente(id));
     }
 
-    @PostMapping("/eventos/pagamento")
-    public ResponseEntity<Evento> pagamento(@RequestBody @Valid PagamentoRequestDTO pagamentoDTO) {
-        return ResponseEntity.status(200).body(pagamentoService.payment(pagamentoDTO));
-    }
+//    @PostMapping("/eventos/pagamento")
+//    public ResponseEntity<Evento> pagamento(@RequestBody @Valid PagamentoRequestDTO pagamentoDTO) {
+//        return ResponseEntity.status(200).body(pagamentoService.payment(pagamentoDTO));
+//    }
 }

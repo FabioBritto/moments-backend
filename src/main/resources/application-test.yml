@@ -14,3 +14,13 @@ spring:
 
 appmoments:
   albumfolder: /tmp/test-album
+
+api:
+  security:
+    token:
+      secret: teste
+
+payment:
+  gateway:
+    api-key: teste
+    url: teste
