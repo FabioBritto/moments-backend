@@ -43,8 +43,19 @@ public class ExceptionHandlingAdvice {
     public ResponseEntity<ExceptionDTO> handleAlreadyExistingUniqueData(Exception e) {
         return ResponseEntity.status(400).body(new ExceptionDTO(e.getMessage()));
     }
+
     @ExceptionHandler(WrongLoginDataException.class)
     public ResponseEntity<ExceptionDTO> handleWrongLoginData(Exception e) {
+        return ResponseEntity.status(400).body(new ExceptionDTO(e.getMessage()));
+    }
+
+    @ExceptionHandler(EventoNotFoundException.class)
+    public ResponseEntity<ExceptionDTO> handleEventoNotFound(Exception e) {
+        return ResponseEntity.status(404).body(new ExceptionDTO(e.getMessage()));
+    }
+
+    @ExceptionHandler(PagamentoException.class)
+    public ResponseEntity<ExceptionDTO> handlePagamentoException(Exception e) {
         return ResponseEntity.status(400).body(new ExceptionDTO(e.getMessage()));
     }
 

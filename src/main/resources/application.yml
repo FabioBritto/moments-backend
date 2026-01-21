@@ -39,4 +39,5 @@ api:
 
 payment:
   gateway:
-    api-key:${API_ASAAS}
+    api-key: ${API_ASAAS}
+    url: ${ASAAS_URL}

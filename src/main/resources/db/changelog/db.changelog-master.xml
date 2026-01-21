@@ -12,5 +12,7 @@
     <!-- Mudanças versionadas -->
     <include file="db/changelog/changes/V1_1_alter_status_financeiro_to_enum.xml"/>
     <include file="db/changelog/changes/V1_2_add_pendente_to_status_financeiro.xml"/>
+    <include file="db/changelog/changes/V1_3_add_id_pagamento_to_evento.xml"/>
+    <include file="db/changelog/changes/V1_4_add_link_pagamento_to_evento.xml"/>
 
 </databaseChangeLog>

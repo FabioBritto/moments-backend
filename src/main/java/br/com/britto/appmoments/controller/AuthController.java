@@ -3,6 +3,7 @@ package br.com.britto.appmoments.controller;
 import br.com.britto.appmoments.dto.login.LoginDTO;
 import br.com.britto.appmoments.dto.login.LoginResponseDTO;
 import br.com.britto.appmoments.dto.login.NewAccessTokenDTO;
+import br.com.britto.appmoments.dto.login.RefreshTokenDTO;
 import br.com.britto.appmoments.exception.TokenException;
 import br.com.britto.appmoments.security.authuser.AuthUser;
 import br.com.britto.appmoments.security.redis.RefreshTokenService;
@@ -13,11 +14,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@CrossOrigin("*")
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;
@@ -43,7 +46,7 @@ public class AuthController {
     }
 
     @PostMapping("/refresh")
-    public ResponseEntity<NewAccessTokenDTO> refresh(@RequestBody String refreshToken) {
+    public ResponseEntity<NewAccessTokenDTO> refresh(@RequestBody RefreshTokenDTO refreshToken) {
         Integer userId = refreshTokenService.validate(refreshToken).orElseThrow(() -> new TokenException("Token inválido"));
         AuthUser authUser = new AuthUser(clienteService.findById(userId));
         NewAccessTokenDTO dto = new NewAccessTokenDTO(accessTokenService.generateAccessToken(authUser));
@@ -51,7 +54,8 @@ public class AuthController {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<Void> logout(@RequestBody String refreshToken) {
+    public ResponseEntity<Void> logout(@RequestBody RefreshTokenDTO refreshToken) {
+        System.out.println("RefreshToken: " + refreshToken.refreshToken());
         refreshTokenService.revoke(refreshToken);
         return ResponseEntity.noContent().build();
     }

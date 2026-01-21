@@ -41,6 +41,12 @@ public class Evento {
     @Column(name = "link_moldura")
     private String linkMoldura;
 
+    @Column(name = "id_pagamento", length = 255)
+    private String idPagamento;
+
+    @Column(name = "link_pagamento", length = 255)
+    private String linkPagamento;
+
     @ManyToOne
     @JoinColumn(name = "tbl_cliente_id_cliente")
     private Cliente cliente;
@@ -117,6 +123,16 @@ public class Evento {
     public void setLinkMoldura(String linkMoldura) {
         this.linkMoldura = linkMoldura;
     }
+
+    public String getIdPagamento() { return  idPagamento; }
+
+    public void setIdPagamento(String idPagamento) { this.idPagamento = idPagamento; }
+
+    public String getLinkPagamento() {
+        return linkPagamento;
+    }
+
+    public void setLinkPagamento(String linkPagamento) { this.linkPagamento = linkPagamento; }
 
     public Cliente getCliente() {
         return cliente;
