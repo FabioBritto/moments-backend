@@ -36,9 +36,14 @@ public class AsaasService implements IPagamentoService{
         RestClient restClient = RestClient.create();
 
         try {
-            return restClient.post().uri(asaasUrl + "/paymentLinks").header("access_token", apiKey)
+            PaymentLinkDTO linkPagamento = restClient.post().uri(asaasUrl + "/paymentLinks").header("access_token", apiKey)
                     .contentType(MediaType.APPLICATION_JSON).body(requestDTO).retrieve().body(PaymentLinkDTO.class);
-        } catch (HttpClientErrorException e) {
+            if(linkPagamento == null) throw new PagamentoException("Erro ao gerar link pagamento");
+            evento.setIdPagamento(linkPagamento.id());
+            evento.setLinkPagamento(linkPagamento.url());
+            eventoRepository.save(evento);
+            return linkPagamento;
+        } catch (Exception e) {
             throw new PagamentoException("Erro ao gerar link de pagamento");
         }
     }

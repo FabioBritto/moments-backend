@@ -19,7 +19,7 @@ public class PagamentoController {
     }
 
     @PostMapping("/pagamento/{uuidEvento}")
-    public ResponseEntity<PaymentLinkDTO> generatePaymenteLink(@RequestParam String uuidEvento) {
+    public ResponseEntity<PaymentLinkDTO> generatePaymenteLink(@PathVariable("uuidEvento") String uuidEvento) {
         return ResponseEntity.status(200).body(service.createPaymenteLink(uuidEvento));
     }
 }
